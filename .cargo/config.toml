@@ -1,0 +1,24 @@
+[build]
+target = "riscv32imc-unknown-none-elf"
+
+[target.'cfg(target_arch = "riscv32")']
+runner    = "probe-rs run --chip esp32c3"
+rustflags = [
+  "-C", "link-arg=--nmagic",
+  "-C", "link-arg=-Tlinkall.x",
+  "-C", "force-frame-pointers",
+
+  # --- ADD following new flag ---
+  "-C", "link-arg=-Tdefmt.x",
+]
+
+[env]
+ESP_LOGLEVEL = "info"
+SSID = "SSID"
+PASSWORD = "PASSWORD"
+STATIC_IP = "1.1.1.1 "
+GATEWAY_IP = "1.1.1.1"
+HOST_IP = "1.1.1.1"
+
+[unstable]
+build-std = ["alloc", "core"]
